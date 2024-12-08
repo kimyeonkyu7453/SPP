@@ -1,7 +1,11 @@
 FROM python:3.10-slim
 
-RUN apt-get update && apt-get install -y curl git && \
-    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+# 필수 패키지 및 빌드 도구 설치 (gcc, build-essential 등)
+RUN apt-get update && apt-get install -y curl git \
+    build-essential gcc
+
+# Node.js 설치
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs
 
 # Python 버전 확인
@@ -22,10 +26,11 @@ COPY requirements.txt ./
 RUN pip install -r requirements.txt
 
 # 애플리케이션 파일 복사
-COPY . .
+COPY . ./
 
-# 실행 포트 노출
+# 실행 포트 노출 (Node.js는 3000, Flask는 5000 포트를 사용)
 EXPOSE 3000
+EXPOSE 5000
 
 # Node.js와 Python Flask 동시 실행
 RUN npm install -g concurrently
