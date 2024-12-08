@@ -18,4 +18,5 @@ COPY . .
 EXPOSE 3000
 
 # `npm run dev`를 실행하여 Node.js 서버와 Python Flask 서버를 동시에 실행
-CMD ["npm", "run", "dev"]
+# CMD 명령어를 sh 쉘을 통해 실행하도록 수정
+CMD ["sh", "-c", "npm run dev"]
