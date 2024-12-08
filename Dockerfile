@@ -2,7 +2,7 @@
 FROM python:3.10-slim
 
 # Node.js 설치 (Node.js 22 버전 사용)
-RUN apt-get update && apt-get install -y curl && \
+RUN apt-get update && apt-get install -y curl git && \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs
 
@@ -28,3 +28,4 @@ RUN npm install -g concurrently
 
 # Node.js와 Python 서버를 동시에 실행
 CMD ["concurrently", "\"npm start\"", "\"python3 multi_flask.py\""]
+
