@@ -1,6 +1,6 @@
-FROM python:3.10-slim
+FROM python:3.10-slim AS base
 
-# 필수 패키지 및 빌드 도구 설치 (gcc, build-essential 등)
+# 필수 패키지 설치 및 빌드 도구 설치 (gcc, build-essential 등)
 RUN apt-get update && apt-get install -y curl git \
     build-essential gcc
 
@@ -23,7 +23,7 @@ RUN npm install
 
 # Python 의존성 설치
 COPY requirements.txt ./
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 애플리케이션 파일 복사
 COPY . ./
@@ -35,3 +35,7 @@ EXPOSE 5000
 # Node.js와 Python Flask 동시 실행
 RUN npm install -g concurrently
 CMD ["concurrently", "\"npm start\"", "\"python3 multi_flask.py\""]
+
+# 마지막으로 빌드 캐시 제거
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
