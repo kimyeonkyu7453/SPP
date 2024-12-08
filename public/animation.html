@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로티 애니메이션</title>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Lottie 애니메이션 -->
+    <dotlottie-player src="https://lottie.host/5c6b315a-5acc-42de-912e-9abfa0cfb70f/ozPUoj8j6x.json" background="transparent" speed="1" style="width: 400px; height: 400px;" loop="3" autoplay></dotlottie-player>
+
+    <script>
+        // 9초 후 홈 페이지로 이동 (3번 반복 후)
+        setTimeout(() => {
+            window.location.href = "home.html"; // 홈 화면으로 페이지 이동
+        }, 6000); // 3초 반복 * 2번 = 6초
+    </script>
+</body>
+</html>

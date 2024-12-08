@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>주가 예측</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+    <style>
+        /* 모든 이미지에 대해 반응형 크기 조정 */
+        .tiles .image img {
+            width: 100%;
+            max-width: 100%; /* 부모 요소의 너비에 맞게 크기를 조절 */
+            height: auto;  /* 비율에 맞춰 자동으로 높이 조정 */
+        }
+
+        /* 모바일 화면에서 이미지 크기 추가 조정 */
+        @media (max-width: 768px) {
+            .tiles .image img {
+                max-width: 60%; /* 모바일 화면에서 이미지를 조금 더 작게 표시 */
+            }
+        }
+
+        /* 예측 차트 텍스트 스타일 */
+        .tiles .content p {
+            color: black; /* 글씨 색상 */
+            font-weight: bold; /* 글씨 두께 */
+            font-size: 16px; /* 글씨 크기 */
+            margin-top: 15px; /* 텍스트 아래로 공간을 추가 */
+        }
+    </style>
+</head>
+<body class="is-preload">
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <div class="inner">
+                <!-- Logo -->
+                <a href="home.html" class="logo">
+                    <span class="symbol"><img src="images/logo.png" alt="" /></span><span class="title"></span>
+                </a>
+
+                <!-- Nav -->
+                <nav>
+                    <ul>
+                        <li><a href="#menu">Menu</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="home.html">홈</a></li>
+					<li><a href="mypage.html">마이페이지</a></li>
+					<li><a href="stock price.html">예측 그래프 생성</a></li>
+					<li><a href="http://127.0.0.1:5000">최근 흐름 분석</a></li>
+                    <li><a href="price.html">전날 대비 변동폭</a></li>
+					<li><a href="talk.html">커뮤니티</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+                <header>
+                    <h1>Prediction Start</h1>
+                    <p>분석을 시작해 예측 차트를 받아보세요!</p>
+                </header>
+                <section class="tiles">
+<!-- 삼성전자 -->
+<article class="style1">
+    <span class="image">
+        <img src="samsung.png" alt="삼성전자" />
+    </span>
+    <a href="http://127.0.0.1:5000/predict_stock?code=005930">
+        <h2></h2>
+        <div class="content">
+            <p></p>
+        </div>
+    </a>
+</article> 
+
+                    <!-- 현대자동차 -->
+                    <article class="style2">
+                        <span class="image">
+                            <img src="h.png" alt="현대자동차" />
+                        </span>
+                        <a href="http://127.0.0.1:5000/predict_stock?code=005380">
+                            <h2></h2>
+                            <div class="content">
+                                <p></p>
+                            </div>
+                        </a>
+                    </article>
+
+                    <!-- SK 하이닉스 -->
+                    <article class="style3">
+                        <span class="image">
+                            <img src="sk.png" alt="SK 하이닉스" />
+                        </span>
+                        <a href="http://127.0.0.1:5000/predict_stock?code=000660">
+                            <h2></h2>
+                            <div class="content">
+                                <p></p>
+                            </div>
+                        </a>
+                    </article>
+
+                    <!-- 네이버 -->
+                    <article class="style4">
+                        <span class="image">
+                            <img src="naver.png" alt="네이버" />
+                        </span>
+                        <a href="http://127.0.0.1:5000/predict_stock?code=035420">
+                            <h2></h2>
+                            <div class="content">
+                                <p></p>
+                            </div>
+                        </a>
+                    </article>
+
+                    <!-- 셀트리온 -->
+                    <article class="style5">
+                        <span class="image">
+                            <img src="cell.png" alt="셀트리온" />
+                        </span>
+                        <a href="http://127.0.0.1:5000/predict_stock?code=068270">
+                            <h2></h2>
+                            <div class="content">
+                                <p></p>
+                            </div>
+                        </a>
+                    </article>
+                </section>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <section>
+                    <h2>고객문의</h2>
+                    <form method="post" action="#">
+                        <div class="fields">
+                            <div class="field half">
+                                <input type="text" name="name" id="name" placeholder="Name" />
+                            </div>
+                            <div class="field half">
+                                <input type="email" name="email" id="email" placeholder="Email" />
+                            </div>
+                            <div class="field">
+                                <textarea name="message" id="message" placeholder="Message"></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><input type="submit" value="Send" class="primary" /></li>
+                        </ul>
+                    </form>
+                </section>
+                <ul class="copyright">
+                    <li>&copy; 캡스톤 디자인 1조 </li><li>Design: 김연규, 오병훈
+                </ul>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 

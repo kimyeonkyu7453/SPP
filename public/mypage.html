@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>마이페이지</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <style>
+        /* Profile section styling */
+        .profile-section {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .profile-section img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .profile-section h2 {
+            display: inline;
+            font-size: 1.5em;
+        }
+
+        .edit-icon {
+            display: inline;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* Nickname input styling */
+        .nickname-input-container {
+            display: none;
+            margin-top: 10px;
+            border-radius: 20px;
+        }
+
+        .nickname-input-container input[type="text"] {
+            width: 80%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            border-radius: 20px;
+        }
+
+        .nickname-save-button {
+            margin-left: 5px;
+            border-radius: 20px;
+        }
+
+        /* Form styling */
+        .form-section {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .form-section .field {
+            margin-bottom: 15px;
+            border-radius: 20px;
+        }
+
+        /* ID and password input styles */
+        .form-section input[type="text"],
+        .form-section input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            border-radius: 20px;
+        }
+
+        /* Circular on/off switch */
+        .switch {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background-color: #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .switch::after {
+            content: "";
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            background-color: white;
+            border-radius: 20px;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s;
+        }
+
+        .switch.active {
+            background-color: #001eff;
+            border-radius: 20px;
+        }
+
+        .switch.active::after {
+            left: 27px;
+            border-radius: 20px;
+        }
+
+        .back-button {
+            float: right;
+            margin-top: 20px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="is-preload">
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <div class="inner">
+                <a href="home.html" class="logo">
+                    <span class="symbol"><img src="images/logo.png" alt="" /></span><span class="title"></span>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#menu">Menu</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="home.html">홈</a></li>
+					<li><a href="mypage.html">마이페이지</a></li>
+					<li><a href="stock price.html">예측 그래프 생성</a></li>
+					<li><a href="http://127.0.0.1:5000">최근 흐름 분석</a></li>
+                    <li><a href="price.html">전날 대비 변동폭</a></li>
+					<li><a href="talk.html">커뮤니티</a></li>
+            </ul>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div id="main">
+            <div class="inner">
+                <!-- Profile Section -->
+                <section class="profile-section">
+                    <img src="images/profile1.png" alt="Profile Picture" onclick="changeProfilePicture()" />
+                    <h2>사용자1</h2>
+                    <span class="edit-icon" onclick="toggleNicknameEdit()">✎</span>
+                    <div class="nickname-input-container" id="nicknameInputContainer">
+                        <input type="text" placeholder="새 닉네임 입력" />
+                        <button class="nickname-save-button" onclick="saveNickname()">저장</button>
+                    </div>
+                </section>
+
+                <!-- Form Section -->
+                <section class="form-section">
+                    <form method="post" action="#">
+                        <!-- ID Field -->
+                        <div class="field">
+                            <label for="id">ID</label>
+                            <input type="text" name="id" id="id" placeholder="기존 ID 입력" />
+                        </div>
+
+                        <!-- Password Fields -->
+                        <div class="field">
+                            <label for="password">비밀번호 변경</label>
+                            <input type="password" name="password" id="password" placeholder="새 비밀번호 입력" />
+                        </div>
+                        <div class="field">
+                            <label for="confirm-password">비밀번호 확인</label>
+                            <input type="password" name="confirm-password" id="confirm-password" placeholder="비밀번호 확인" />
+                        </div>
+
+                        <!-- Notification Toggle -->
+                        <div class="toggle-container" style="display: flex; justify-content: space-between;">
+                            <label for="notifications-toggle">알림 푸쉬</label>
+                            <div class="switch" id="notifications-toggle" onclick="toggleSwitch(this)"></div>
+                        </div>
+
+                        <!-- Back Button -->
+                        <button type="button" class="back-button" onclick="window.history.back()">저장</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <section>
+                    <h2>고객문의</h2>
+                    <form method="post" action="#">
+                        <div class="fields">
+                            <div class="field half">
+                                <input type="text" name="name" id="name" placeholder="Name" />
+                            </div>
+                            <div class="field half">
+                                <input type="email" name="email" id="email" placeholder="Email" />
+                            </div>
+                            <div class="field">
+                                <textarea name="message" id="message" placeholder="Message"></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><input type="submit" value="Send" class="primary" /></li>
+                        </ul>
+                    </form>
+                </section>
+                <ul class="copyright">
+                    <li>&copy; 캡스톤 디자인 1조</li><li>Design: 김연규, 오병훈</li>
+                </ul>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        function toggleNicknameEdit() {
+            const nicknameContainer = document.getElementById('nicknameInputContainer');
+            nicknameContainer.style.display = nicknameContainer.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function saveNickname() {
+            // Add nickname save functionality
+        }
+
+        function changeProfilePicture() {
+            alert("프로필 사진 변경");
+            // Add profile picture change functionality here
+        }
+
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

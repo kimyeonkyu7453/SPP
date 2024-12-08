@@ -1,0 +1,378 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>커뮤니티</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        /* 기본 스타일 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* 게시글 스타일 */
+.post {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.post:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.post p {
+    font-size: 1em;
+    color: #000000;
+    line-height: 1.6;
+}
+
+.post .meta {
+    font-size: 0.9em;
+    color: #000000;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.post .meta img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.post .actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.post .actions a {
+    text-decoration: none;
+    color: #2339fd;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.post .actions a:hover {
+    color: #333;
+}
+
+.recommend-icon {
+    cursor: pointer;
+}
+
+/* 검색창 */
+.search-bar {
+    margin-bottom: 30px;
+}
+
+.search-input {
+    width: 80%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.icon {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* 탭 */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin: 70px 0 40px; /* 탭을 아래로 내리기 */
+}
+
+.tab {
+    background-color: #f4f4f9;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.tab.active {
+    background-color: #2455f5;
+    color: white;
+}
+
+/* 모바일 반응형 디자인 */
+@media (max-width: 1024px) {
+    .search-input {
+        width: 90%;
+    }
+
+    .tabs {
+        margin: 50px 0 30px;
+    }
+
+    .post {
+        padding: 15px;
+    }
+
+    .post p {
+        font-size: 0.95em;
+    }
+}
+
+@media (max-width: 768px) {
+    .tabs {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .tab {
+        text-align: center;
+        padding: 8px 15px;
+    }
+
+    .post .meta {
+        font-size: 0.8em;
+        flex-wrap: wrap;
+    }
+
+    .post .actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .post p {
+        font-size: 0.85em;
+    }
+
+    .post {
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    .tab {
+        font-size: 0.9em;
+        padding: 8px 10px;
+    }
+
+    .post .meta img {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+    </style>
+</head>
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <div class="inner">
+                <a href="home.html" class="logo">
+                    <span class="symbol"><img src="images/logo.png" alt="" /></span><span class="title"></span>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#menu">Menu</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="home.html">홈</a></li>
+					<li><a href="mypage.html">마이페이지</a></li>
+					<li><a href="stock price.html">예측 그래프 생성</a></li>
+					<li><a href="http://127.0.0.1:5000">최근 흐름 분석</a></li>
+                    <li><a href="price.html">전날 대비 변동폭</a></li>
+					<li><a href="talk.html">커뮤니티</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+                <header>
+                    <h1>Community</h1>
+                    <p>사용자들과 의견을 나눠보세요!</p>
+                </header>
+
+                <!-- 검색창 -->
+                <div class="search-bar">
+                    <input type="text" id="searchQuery" class="search-input" placeholder="검색어를 입력하세요">
+                    <span class="icon" onclick="searchPosts()">🔍</span>
+                </div>
+
+                <span class="icon write-icon" onclick="location.href='write.html'">✍️</span>
+
+                <!-- 탭 -->
+                <div class="tabs">
+                    <div class="tab active" id="latest-tab" onclick="showTab('latest')">최신글</div>
+                    <div class="tab" id="popular-tab" onclick="showTab('popular')">인기글</div>
+                </div>
+
+                <!-- 게시물 목록 -->
+                <div id="post-list">
+                    <p>표시할 게시물이 없습니다.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <section>
+                    <h2>고객문의</h2>
+                    <form method="post" action="#">
+                        <div class="fields">
+                            <div class="field half">
+                                <input type="text" name="name" id="name" placeholder="Name" />
+                            </div>
+                            <div class="field half">
+                                <input type="email" name="email" id="email" placeholder="Email" />
+                            </div>
+                            <div class="field">
+                                <textarea name="message" id="message" placeholder="Message"></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><input type="submit" value="Send" class="primary" /></li>
+                        </ul>
+                    </form>
+                </section>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // 예시 게시글 데이터
+        const posts = [
+            { id: 1, content: "삼성전자 언제까지 하락세일까요?", views: 197, likes: 5, comments: 6, time: "2023-11-01", user: { name: "주린이", profilePic: "images/profile1.png" } },
+            { id: 2, content: "주린이분들을 위한 팁", views: 120, likes: 12, comments: 21, time: "2023-11-02", user: { name: "천장", profilePic: "images/profile1.png" } },
+            { id: 3, content: "미국 주식은 어떻게 생각하세요?", views: 75, likes: 1, comments: 3, time: "2023-11-02", user: { name: "개미", profilePic: "images/profile1.png" } }
+        ];
+    
+        // 최신글과 인기글 구분하여 출력
+        function showTab(tab) {
+            const postList = document.getElementById('post-list');
+            postList.innerHTML = ''; // 목록 초기화
+    
+            // 필터링 조건 설정
+            const filteredPosts = posts.filter(post => tab === 'latest' || post.likes >= 5);
+    
+            // 게시글 출력
+            if (filteredPosts.length === 0) {
+                postList.innerHTML = '<p>표시할 게시물이 없습니다.</p>';
+            } else {
+                filteredPosts.forEach(post => {
+                    const postElement = document.createElement('div');
+                    postElement.className = 'post';
+                    postElement.innerHTML = `
+                        <div class="meta">
+                            <img src="${post.user.profilePic}" alt="Profile Picture">
+                            <span>${post.user.name}</span>
+                        </div>
+                        <p>${post.content}</p>
+                        <div class="meta">
+                            조회수: ${post.views} | 추천: <span id="like-${post.id}">${post.likes}</span> | 댓글: ${post.comments} | 작성시간: ${post.time}
+                        </div>
+                        <div class="actions">
+                            <a href="#" class="recommend-icon" onclick="likePost(${post.id})">👍 추천</a>
+                            <a href="#" onclick="showComments(${post.id})">💬 댓글</a>
+                        </div>
+                    `;
+                    postList.appendChild(postElement);
+                });
+            }
+    
+            // 탭 활성화 처리
+            document.querySelectorAll('.tab').forEach(tabElement => tabElement.classList.remove('active'));
+            document.getElementById(`${tab}-tab`).classList.add('active');
+        }
+    
+        // 게시글 추천 증가
+        function likePost(postId) {
+            const post = posts.find(post => post.id === postId);
+            if (post) {
+                post.likes += 1;
+                document.getElementById(`like-${postId}`).textContent = post.likes;
+            }
+        }
+    
+        // 댓글 표시 (현재 예시로 댓글 개수만 표시)
+        function showComments(postId) {
+            const post = posts.find(post => post.id === postId);
+            if (post) {
+                alert(`댓글: ${post.comments}개`);
+            }
+        }
+    
+        // 검색 기능
+        function searchPosts() {
+            const query = document.getElementById('searchQuery').value.toLowerCase();
+            const filteredPosts = posts.filter(post =>
+                post.content.toLowerCase().includes(query)
+            );
+            const postList = document.getElementById('post-list');
+            postList.innerHTML = ''; // 목록 초기화
+    
+            if (filteredPosts.length === 0) {
+                postList.innerHTML = '<p>검색 결과가 없습니다.</p>';
+            } else {
+                filteredPosts.forEach(post => {
+                    const postElement = document.createElement('div');
+                    postElement.className = 'post';
+                    postElement.innerHTML = `
+                        <div class="meta">
+                            <img src="${post.user.profilePic}" alt="Profile Picture">
+                            <span>${post.user.name}</span>
+                        </div>
+                        <p>${post.content}</p>
+                        <div class="meta">
+                            조회수: ${post.views} | 추천: ${post.likes} | 댓글: ${post.comments} | 작성시간: ${post.time}
+                        </div>
+                        <div class="actions">
+                            <a href="#" class="recommend-icon" onclick="likePost(${post.id})">👍 추천</a>
+                            <a href="#" onclick="showComments(${post.id})">💬 댓글</a>
+                        </div>
+                    `;
+                    postList.appendChild(postElement);
+                });
+            }
+        }
+    
+        // 페이지 로드 시 최신글 탭 보이기
+        showTab('latest');
+    </script>
+    
+    
+    
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "APP",
+			"path": ".."
+		},
+		{
+			"name": "routes",
+			"path": "../../login-project/routes"
+		}
+	],
+	"settings": {}
+}

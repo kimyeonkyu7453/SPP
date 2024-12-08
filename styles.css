@@ -1,0 +1,160 @@
+/* 기본적인 스타일 */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+}
+
+/* 컨테이너 스타일 */
+.container {
+    max-width: 230px;
+    height: 450px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    text-align: center;
+    position: relative;
+}
+
+/* 로고 스타일 */
+.logo {
+    margin-bottom: 20px;
+}
+.logo-img {
+    width: 80px;
+    height: auto;
+}
+
+/* 제목 스타일 */
+h1 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* 입력 폼 스타일 */
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #2979ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+/* Select All 버튼 스타일 */
+#selectAllBtn {
+    background-color: #1774ff;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    box-shadow: none; /* 그림자 제거 */
+}
+
+#selectAllBtn:hover {
+    background-color: #0A3D91;
+}
+
+/* Start 버튼 - Select All 버튼 오른쪽 아래 작은 버튼 */
+#startBtn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: #ccc;
+    color: white;
+    padding: 5px 5px;
+    border: none;
+    border-radius: 10px;
+    font-size: 5px;
+    font-weight: bold;
+    cursor: not-allowed;
+    transition: background-color 0.3s;
+    box-shadow: none; /* 그림자 제거 */
+}
+
+/* 주식 선택 섹션 스타일 */
+.stocks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.stock-item {
+    width: 30%;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.stock-img {
+    width: 100%;
+    height: auto;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    transition: border-color 0.3s;
+}
+
+.stock-item.selected .stock-img {
+    border-color: #1774ff;
+}
+
+/* OAuth 버튼 스타일 */
+.oauth-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.oauth-button img {
+    width: 30px;
+    height: auto;
+}
+
+/* 비밀번호 복구 링크 스타일 */
+.recovery {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* 링크 스타일 */
+p a {
+    color: #2979ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .stocks {
+        display: block;
+    }
+
+    .stock-item {
+        width: 45%;
+    }
+}

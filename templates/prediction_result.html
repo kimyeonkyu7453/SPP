@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>주가 예측 결과</title>
+    <!-- 정적 파일 경로 수정 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/noscript.css') }}"></noscript>
+</head>
+<body class="is-preload">
+    <!-- Wrapper -->
+    <div id="wrapper">
+        
+        <!-- Header -->
+        <header id="header">
+            <div class="inner">
+                <!-- Logo -->
+                <a href="home.html" class="logo">
+                    <span class="symbol"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" /></span>
+                    <span class="title"></span>
+                </a>
+                <!-- Nav -->
+                <nav>
+                    <ul>
+                        <li><a href="#menu">Menu</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="home.html">홈</a></li>
+					<li><a href="mypage.html">마이페이지</a></li>
+					<li><a href="stock price.html">예측 그래프 생성</a></li>
+					<li><a href="http://127.0.0.1:5000">최근 흐름 분석</a></li>
+                    <li><a href="price.html">전날 대비 변동폭</a></li>
+					<li><a href="talk.html">커뮤니티</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+                <header>
+                    <h1></h1>
+                    <p></p>
+                </header>
+                
+                <!-- 예측 결과 차트 -->
+                <div id="result">
+                    <h2>{{ stock_code }} 주가 예측 차트</h2>
+                    <!-- 예측 결과 차트를 표시하는 부분 -->
+                    <div>{{ plot | safe }}</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <section>
+                    <h2>고객 문의</h2>
+                    <form method="post" action="#">
+                        <div class="fields">
+                            <div class="field half">
+                                <input type="text" name="name" id="name" placeholder="Name" />
+                            </div>
+                            <div class="field half">
+                                <input type="email" name="email" id="email" placeholder="Email" />
+                            </div>
+                            <div class="field">
+                                <textarea name="message" id="message" placeholder="Message"></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><input type="submit" value="Send" class="primary" /></li>
+                        </ul>
+                    </form>
+                </section>
+                <ul class="copyright">
+                    <li>&copy; 캡스톤 디자인 1조</li><li>Design: 김연규, 오병훈</li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

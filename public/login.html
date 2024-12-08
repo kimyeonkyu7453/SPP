@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        /* 기본적인 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: none;
+            border: 2px solid #ffffff;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo-img {
+            width: 80px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #000000;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        /* 입력 필드 스타일 수정 */
+        input[type="text"],
+        input[type="password"] {
+            width: 105%; /* 가로 크기 살짝 증가 */
+            padding: 20px;
+            margin: 10px 0;
+            border: 3px solid #ccc;
+            border-radius: 20px; /* 둥근 모서리 */
+            box-sizing: border-box;
+        }
+
+        /* 버튼 스타일 수정 */
+        button {
+            background-color: #2979ff;
+            color: white;
+            padding: 20px;
+            border: none;
+            border-radius: 20px; /* 더 둥글게 */
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 105%;
+        }
+
+        /* 구분선 스타일 */
+        .separator {
+            margin: 20px 0;
+            font-size: 14px;
+            color: #aaa;
+            letter-spacing: 2px;
+        }
+
+        /* OAuth 버튼 스타일 */
+        .oauth-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .oauth-button {
+            cursor: pointer;
+        }
+
+        .oauth-button img {
+            width: 40px;
+            height: auto;
+        }
+
+        p {
+            margin-top: 30px;
+        }
+
+        p a {
+            color: #2979ff;
+            text-decoration: none;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                font-size: 14px;
+            }
+
+            button {
+                padding: 20px;
+                font-size: 14px;
+            }
+
+            .logo-img {
+                width: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo" class="logo-img">
+        </div>
+
+        <h1>Sign In</h1>
+
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username or Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Sign In</button>
+        </form>
+
+        <div class="separator">──────── or ────────</div>
+
+        <div class="oauth-buttons">
+            <div class="oauth-button" id="googleSignUp">
+                <img src="google-icon.png" alt="Google">
+            </div>
+            <div class="oauth-button" id="kakaoSignUp">
+                <img src="kakao-icon.png" alt="Kakao">
+            </div>
+        </div>
+
+        <p>Not A Member? <a href="register.html">Register Now</a></p>
+    </div>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+        // 로그인 폼 처리
+        document.getElementById('loginForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // 서버에 POST 요청 보내기
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            });
+
+            const data = await response.json();
+
+            // 응답에 따라 처리
+            if (response.ok) {
+                alert('Login successful');
+                window.location.href = '/choose.html'; // 대시보드 페이지로 이동 (절대 경로)
+            } else {
+                alert(data.message || 'Login failed');
+            }
+        });
+    </script>
+
+    <!-- OAuth 처리 -->
+    <script>
+        // Google 로그인 처리
+        window.onload = function() {
+            google.accounts.id.initialize({
+                client_id: "YOUR_GOOGLE_CLIENT_ID",
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("googleSignUp"),
+                { theme: "outline", size: "large" }
+            );
+        };
+
+        // Kakao 로그인 처리
+        Kakao.init('YOUR_KAKAO_JS_KEY');
+        Kakao.Auth.createLoginButton({
+            container: '#kakaoSignUp',
+            success: function(authObj) {
+                console.log(authObj);
+            },
+            fail: function(error) {
+                console.log(error);
+            }
+        });
+    </script>
+</body>
+</html>

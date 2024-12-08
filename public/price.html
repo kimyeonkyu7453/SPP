@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Stock Price Changes</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			/* 추가된 디자인 스타일 */
+			#stock-list {
+				list-style-type: none;
+				padding: 0;
+			}
+			#stock-list li {
+				display: flex;
+				align-items: center;
+				margin-bottom: 20px;
+				font-size: 1.2em;
+				justify-content: space-between; /* 아이템들 사이를 고르게 분배 */
+			}
+			#stock-list img {
+				width: 95px; /* 로고 크기 조정 */
+				height: 60px;
+				margin-right: 30px;
+			}
+			/* 회전된 화살표 클래스 */
+.stock-change-num-down {
+    transform: rotate(180deg); /* 180도 회전하여 아래를 향하도록 설정 */
+}
+
+			.stock-info {
+				display: flex;
+				align-items: center;
+			}
+			.stock-change {
+				font-size: 1.1em;
+				padding: 5px 10px;
+				border-radius: 5px;
+				color: white;
+				margin-right: 10px;
+			}
+			.stock-up {
+				color: #F44336; /* 상승: 빨간색 */
+			}
+			.stock-down {
+				color: #2196F3; /* 하락: 파란색 */
+			}
+			.stock-neutral {
+				color: #9E9E9E; /* 변동 없음: 회색 */
+			}
+			.stock-change-num {
+				font-size: 1.3em;
+				font-weight: bold;
+			}
+			.stock-change-num-up {
+				color: #F44336; /* 상승 화살표 */
+				transform: rotate(0deg); /* 위로 향하는 화살표 */
+			}
+			.stock-change-num-down {
+				color: #2196F3; /* 하락 화살표 */
+				transform: rotate(180deg); /* 아래로 향하는 화살표 */
+			}
+			.stock-change-num-neutral {
+				color: #9E9E9E; /* 변동 없음 화살표 */
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+		<div id="wrapper">
+			<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<!-- Logo -->
+					<a href="home.html" class="logo">
+						<span class="symbol"><img src="images/logo.png" alt="" /></span><span class="title"></span>
+					</a>
+					<!-- Nav -->
+					<nav>
+						<ul>
+							<li><a href="#menu">Menu</a></li>
+						</ul>
+					</nav>
+				</div>
+			</header>
+
+			<!-- Menu -->
+			<nav id="menu">
+				<h2>Menu</h2>
+				<ul>
+					<li><a href="home.html">홈</a></li>
+					<li><a href="mypage.html">마이페이지</a></li>
+					<li><a href="stock price.html">예측 그래프 생성</a></li>
+					<li><a href="http://127.0.0.1:5000">최근 흐름 분석</a></li>
+                    <li><a href="price.html">전날 대비 변동폭</a></li>
+					<li><a href="talk.html">커뮤니티</a></li>
+				</ul>
+			</nav>
+
+			<!-- Main -->
+			<div id="main">
+				<div class="inner">
+					<header>
+						<h1>전날 대비 변동폭</h1>
+						<p>전날 대비 변동폭을 확인하세요.</p>
+					</header>
+					<section>
+						<h2>종목</h2>
+						<ul id="stock-list">
+							<li>
+								<div class="stock-info">
+									<img src="samsung.png" alt="삼성전자" />
+									<span>삼성전자</span>
+								</div>
+								<div class="stock-info">
+									<span id="samsung" class="stock-change"></span>
+									<span id="samsung-change-num" class="stock-change-num"></span>
+								</div>
+							</li>
+							<li>
+								<div class="stock-info">
+									<img src="sk.png" alt="SK Hynix" />
+									<span>SK 하이닉스</span>
+								</div>
+								<div class="stock-info">
+									<span id="skhynix" class="stock-change"></span>
+									<span id="skhynix-change-num" class="stock-change-num"></span>
+								</div>
+							</li>
+							<li>
+								<div class="stock-info">
+									<img src="h.png" alt="현대자동차" />
+									<span>현대자동차</span>
+								</div>
+								<div class="stock-info">
+									<span id="hyundai" class="stock-change"></span>
+									<span id="hyundai-change-num" class="stock-change-num"></span>
+								</div>
+							</li>
+							<li>
+								<div class="stock-info">
+									<img src="cell.png" alt="셀트리온" />
+									<span>셀트리온</span>
+								</div>
+								<div class="stock-info">
+									<span id="celltrion" class="stock-change"></span>
+									<span id="celltrion-change-num" class="stock-change-num"></span>
+								</div>
+							</li>
+							<li>
+								<div class="stock-info">
+									<img src="naver.png" alt="네이버" />
+									<span>네이버</span>
+								</div>
+								<div class="stock-info">
+									<span id="naver" class="stock-change"></span>
+									<span id="naver-change-num" class="stock-change-num"></span>
+								</div>
+							</li>
+						</ul>
+					</section>
+				</div>
+			</div>
+
+			<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<section>
+						<h2>고객문의</h2>
+						<form method="post" action="#"></form>
+					</section>
+					<ul class="copyright">
+						<li>&copy; 캡스톤 디자인 1조 </li><li>Design: 김연규, 오병훈</li>
+					</ul>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+		<!-- Stock price change calculation -->
+		<script>
+			$(document).ready(function() {
+				// Simulating stock price change data (in real scenario, fetch from API)
+				var stockData = {
+					"samsung": {change: 5.24},
+					"skhynix": {change: -3.12},
+					"hyundai": {change: 2.38},
+					"celltrion": {change: -1.75},
+					"naver": {change: 0.89}
+				};
+
+				// Update stock changes on the page
+				$('#samsung').text(stockData.samsung.change + '%');
+				$('#skhynix').text(stockData.skhynix.change + '%');
+				$('#hyundai').text(stockData.hyundai.change + '%');
+				$('#celltrion').text(stockData.celltrion.change + '%');
+				$('#naver').text(stockData.naver.change + '%');
+
+				// Apply color coding and arrow changes based on the change
+				applyArrowCoding();
+			});
+
+			function applyArrowCoding() {
+				// Samsung
+if (parseFloat($('#samsung').text()) > 0) {
+    $('#samsung').addClass('stock-up');
+    $('#samsung-change-num').addClass('stock-change-num-up').html('&#8593;'); // Up arrow
+} else if (parseFloat($('#samsung').text()) < 0) {
+    $('#samsung').addClass('stock-down');
+    $('#samsung-change-num').addClass('stock-change-num-down').html('&#8593;'); // Up arrow rotated
+} else {
+    $('#samsung').addClass('stock-neutral');
+    $('#samsung-change-num').addClass('stock-change-num-neutral').html('&#8596;'); // Neutral arrow
+}
+
+// SK Hynix
+if (parseFloat($('#skhynix').text()) > 0) {
+    $('#skhynix').addClass('stock-up');
+    $('#skhynix-change-num').addClass('stock-change-num-up').html('&#8593;'); // Up arrow
+} else if (parseFloat($('#skhynix').text()) < 0) {
+    $('#skhynix').addClass('stock-down');
+    $('#skhynix-change-num').addClass('stock-change-num-down').html('&#8593;'); // Up arrow rotated
+} else {
+    $('#skhynix').addClass('stock-neutral');
+    $('#skhynix-change-num').addClass('stock-change-num-neutral').html('&#8596;'); // Neutral arrow
+}
+
+// Hyundai
+if (parseFloat($('#hyundai').text()) > 0) {
+    $('#hyundai').addClass('stock-up');
+    $('#hyundai-change-num').addClass('stock-change-num-up').html('&#8593;'); // Up arrow
+} else if (parseFloat($('#hyundai').text()) < 0) {
+    $('#hyundai').addClass('stock-down');
+    $('#hyundai-change-num').addClass('stock-change-num-down').html('&#8593;'); // Up arrow rotated
+} else {
+    $('#hyundai').addClass('stock-neutral');
+    $('#hyundai-change-num').addClass('stock-change-num-neutral').html('&#8596;'); // Neutral arrow
+}
+
+// Celltrion
+if (parseFloat($('#celltrion').text()) > 0) {
+    $('#celltrion').addClass('stock-up');
+    $('#celltrion-change-num').addClass('stock-change-num-up').html('&#8593;'); // Up arrow
+} else if (parseFloat($('#celltrion').text()) < 0) {
+    $('#celltrion').addClass('stock-down');
+    $('#celltrion-change-num').addClass('stock-change-num-down').html('&#8593;'); // Up arrow rotated
+} else {
+    $('#celltrion').addClass('stock-neutral');
+    $('#celltrion-change-num').addClass('stock-change-num-neutral').html('&#8596;'); // Neutral arrow
+}
+
+// Naver
+if (parseFloat($('#naver').text()) > 0) {
+    $('#naver').addClass('stock-up');
+    $('#naver-change-num').addClass('stock-change-num-up').html('&#8593;'); // Up arrow
+} else if (parseFloat($('#naver').text()) < 0) {
+    $('#naver').addClass('stock-down');
+    $('#naver-change-num').addClass('stock-change-num-down').html('&#8593;'); // Up arrow rotated
+} else {
+    $('#naver').addClass('stock-neutral');
+    $('#naver-change-num').addClass('stock-change-num-neutral').html('&#8596;'); // Neutral arrow
+}
+
+
+				
+			}
+		</script>
+	</body>
+</html>

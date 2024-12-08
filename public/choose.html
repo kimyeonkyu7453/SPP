@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>주가 예측 프로그램</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 모바일 반응형 스타일 적용 */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 320px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo-img {
+            width: 80px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #000;
+            font-weight: bold;
+            margin: 30px 0;
+        }
+
+        .stocks {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .stock-item {
+            width: 30%; /* Default width for each item */
+            cursor: pointer;
+        }
+
+        /* Make only Samsung, H, and SK items larger */
+        .stock-item[data-stock="samsung"] .stock-img,
+        .stock-item[data-stock="h"] .stock-img {
+            width: 90%; /* Larger width for specified items */
+        }
+
+        .stock-item[data-stock="h"] .stock-img {
+            width: 95%; /* Larger width for specified items */
+        }
+
+        /* Make only SK items larger */
+        .stock-item[data-stock="sk"] .stock-img {
+            width: 95%; /* Larger width for specified items */
+        }
+
+        /* Slightly increase the size for Naver and Celltrion */
+        .stock-item[data-stock="naver"] .stock-img,
+        .stock-item[data-stock="cell"] .stock-img {
+            width: 80%; /* Slightly larger width for these items */
+        }
+
+        .stock-img {
+            width: 70%; /* Default width for stock images */
+            height: auto;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+            margin-top: 40px;
+        }
+
+        .stock-item.selected .stock-img {
+            border-color: #1774ff;
+        }
+
+        /* Select All 버튼 스타일 */
+        #selectAllBtn {
+            background-color: #2979ff;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            width: 90%;
+            cursor: pointer;
+            margin-top: 0px;
+            transition: background-color 0.3s;
+            box-shadow: none;
+        }
+
+        #selectAllBtn:hover {
+            background-color: #0A3D91;
+        }
+
+        /* Start 버튼 */
+        #startBtn {
+            position: absolute;
+            right: 30px;
+            bottom: -20px;
+            background-color: #ccc;
+            color: white;
+            padding: 5px 0;
+            width: 60px;
+            border: none;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: not-allowed;
+            transition: background-color 0.3s;
+            box-shadow: none;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo" class="logo-img">
+
+        </div>
+
+        <h1>Check Your Stocks!</h1>
+
+        <!-- 주식 종목들 -->
+        <div class="stocks">
+            <div class="stock-item" data-stock="samsung">
+                <img src="samsung.png" alt="삼성" class="stock-img">
+            </div>
+            <div class="stock-item" data-stock="h">
+                <img src="h.png" alt="현대" class="stock-img">
+            </div>
+            <div class="stock-item" data-stock="sk">
+                <img src="sk.png" alt="SK" class="stock-img">
+            </div>
+            <div class="stock-item" data-stock="naver">
+                <img src="naver.png" alt="네이버" class="stock-img">
+            </div>
+            <div class="stock-item" data-stock="cell">
+                <img src="cell.png" alt="셀트리온" class="stock-img">
+            </div>
+        </div>
+
+        <!-- Select All 버튼을 종목 아래에 배치 -->
+        <button id="selectAllBtn">Select All</button>
+        <!-- Start 버튼을 Select All 버튼과 겹치지 않게 배치 -->
+        <button id="startBtn" disabled>Start!</button>
+    </div>
+
+    <script>
+        // 버튼 및 종목 요소 가져오기
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const startBtn = document.getElementById('startBtn');
+        const stockItems = document.querySelectorAll('.stock-item');
+        let allSelected = false;
+
+        // 종목 클릭 시 선택/해제 기능
+        stockItems.forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('selected');
+                updateStartButtonState();
+            });
+        });
+
+        // Select All 버튼 클릭 시 모든 종목 선택/해제 기능
+        selectAllBtn.addEventListener('click', () => {
+            allSelected = !allSelected;
+            stockItems.forEach(item => {
+                item.classList.toggle('selected', allSelected);
+            });
+            selectAllBtn.textContent = allSelected ? 'Clear All' : 'Select All';
+            updateStartButtonState();
+        });
+
+        // 선택된 종목이 있는지 확인하여 Start 버튼 상태 업데이트
+        function updateStartButtonState() {
+            const isAnySelected = document.querySelectorAll('.stock-item.selected').length > 0;
+            if (isAnySelected) {
+                startBtn.disabled = false;
+                startBtn.style.backgroundColor = '#2979ff';
+                startBtn.style.cursor = 'pointer';
+            } else {
+                startBtn.disabled = true;
+                startBtn.style.backgroundColor = '#ccc';
+                startBtn.style.cursor = 'not-allowed';
+            }
+        }
+
+        // Start 버튼 클릭 시 animation.html로 이동
+        startBtn.addEventListener('click', function() {
+            if (!startBtn.disabled) {
+                window.location.href = 'animation.html';
+            }
+        });
+    </script>
+</body>
+</html>

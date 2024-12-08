@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>글쓰기</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        /* 메인 스타일 */
+        #main {
+            padding: 20px;
+        }
+
+        /* 제목 입력 스타일 */
+        .title-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        /* 내용 입력 스타일 */
+        .content-textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        /* 사진 업로드 스타일 */
+        .upload-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .upload-icon {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 5px;
+            margin-bottom: 1px;
+        }
+
+       /* 글쓰기 버튼 스타일 */
+.submit-button {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    background-color: #7a94fe; /* 녹색 배경으로 변경 */
+    color: rgb(0, 0, 0); /* 글자 색상을 흰색으로 설정 */
+    font-size: 14px; /* 텍스트 크기 확대 */
+    padding: 0px 40px; /* 패딩을 줄여서 크기를 조정 */
+    border: none;
+    border-radius: 24px; /* 살짝 둥근 사각형으로 변경 */
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* 그림자 추가 */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* 부드러운 색상 및 크기 변화 효과 */
+}
+
+
+    </style>
+</head>
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <div class="inner">
+
+                <!-- Logo -->
+                <a href="home.html" class="logo">
+                    <span class="symbol"><img src="images/logo.png" alt="" /></span><span class="title"></span>
+                </a>
+
+                <!-- Nav -->
+                <nav>
+                    <ul>
+                        <li><a href="#menu">Menu</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="home.html">홈</a></li>
+					<li><a href="mypage.html">마이페이지</a></li>
+					<li><a href="stock price.html">예측 그래프 생성</a></li>
+					<li><a href="http://127.0.0.1:5000">최근 흐름 분석</a></li>
+                    <li><a href="price.html">전날 대비 변동폭</a></li>
+					<li><a href="talk.html">커뮤니티</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div id="main">
+            <div class="inner">
+                <h1></h1>
+
+                <!-- 제목 입력 -->
+                <input type="text" id="title" class="title-input" placeholder="제목을 입력하세요" />
+
+                <!-- 내용 입력 -->
+                <textarea id="content" class="content-textarea" placeholder="내용을 입력하세요"></textarea>
+
+                <!-- 사진 업로드 -->
+                <div class="upload-section">
+                    <label for="imageUpload" class="upload-icon">📷</label>
+                    <input type="file" id="imageUpload" style="display: none;" />
+                    <span>사진 추가</span>
+                </div>
+
+                <!-- 글쓰기 버튼 -->
+                <button class="submit-button" onclick="submitPost()">글쓰기</button>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // 작성 완료 버튼 기능
+        function submitPost() {
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+
+            if (!title || !content) {
+                alert('제목과 내용을 입력하세요.');
+                return;
+            }
+
+            // 게시글 업로드가 완료되면 커뮤니티 페이지로 이동
+            alert('글이 작성되었습니다.');
+            window.location.href = 'talk.html';
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>뉴스 분석</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/noscript.css') }}"></noscript>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            font-weight: 500;
+        }
+
+        .tiles .image img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+        }
+        
+        .tiles .content p {
+            color: black;
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .tiles .image img {
+                max-width: 70%;
+            }
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        th, td {
+            padding: 15px;
+            border: 2px solid #555;
+            text-align: center;
+        }
+
+        th {
+            background-color: #000000;
+            color: white;
+            font-weight: 700;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        /* 로딩 스피너 */
+        #loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            width: 100px;
+            height: 100px;
+        }
+
+        .tenor-gif-embed {
+            width: 100px;
+            height: 100px;
+        }
+
+        /* 동적 키워드 검색창 스타일 */
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .search-container input[type="text"] {
+            width: 400px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #000000;
+            border-radius: 15px;
+            outline: none;
+            font-weight: 600;
+        }
+
+        .search-container input[type="text"]:focus {
+            border-color: #000000;
+            box-shadow: 0 0 5px #000000;
+        }
+
+        .refresh-btn {
+            background-color: #ffffff;
+            color: white;
+            border: none;
+            padding: 0px 0px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .refresh-btn:hover {
+            background-color: #0056b3;
+        }
+
+        header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        header p {
+            font-size: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body class="is-preload">
+    <div id="wrapper">
+        <!-- Header -->
+        <header id="header">
+            <div class="inner">
+                <!-- Logo -->
+                <a href="home.html" class="logo">
+                    <span class="symbol"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" /></span>
+                </a>
+                <!-- Nav -->
+                <nav>
+                    <ul>
+                        <li><a href="#menu">Menu</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="home.html">홈</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+                <li><a href="stock price.html">예측 그래프 생성</a></li>
+                <li><a href="http://127.0.0.1:5000">최근 흐름 분석</a></li>
+                <li><a href="price.html">전날 대비 변동폭</a></li>
+                <li><a href="talk.html">커뮤니티</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+                <header>
+                    <h1>Recent trend</h1>
+                    <p>보유종목의 최근 흐름을 확인하세요!</p>
+                </header>
+
+                <!-- 동적 키워드 검색창 -->
+                <div class="search-container">
+                    <input type="text" id="keyword-search" placeholder="키워드 검색">
+                    <button id="start-monitoring" class="refresh-btn">불러오기</button>
+                </div>
+
+                <section class="tiles">
+                    <div class="table-container">
+                        <!-- 로딩 애니메이션 -->
+                        <div id="loading-spinner">
+                            <div class="tenor-gif-embed" data-postid="15572297" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+                                <a href="https://tenor.com/view/loading-load-circle-buffering-waiting-gif-15572297">Loading Circle Sticker</a> from <a href="https://tenor.com/search/loading-stickers">Loading Stickers</a>
+                            </div>
+                            <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+                        </div>
+
+                        <div id="news-results">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Keyword</th>
+                                        <th>Title</th>
+                                        <th>Sentiment</th>
+                                        <th>Score</th>
+                                        <th>Published Date</th>
+                                        <th>Link</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="news-table-body">
+                                    {% for result in news_results %}
+                                    <tr data-keyword="{{ result.keyword }}" data-sentiment="{{ result.sentiment }}">
+                                        <td>{{ result.keyword }}</td>
+                                        <td>{{ result.title }}</td>
+                                        <td>{{ result.sentiment }}</td>
+                                        <td>{{ result.score }}</td>
+                                        <td>{{ result.pub_date }}</td>
+                                        <td><a href="{{ result.link }}" target="_blank">Link</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <section>
+                    <h2>고객문의</h2>
+                    <form method="post" action="#">
+                        <div class="fields">
+                            <div class="field half">
+                                <input type="text" name="name" id="name" placeholder="Name" />
+                            </div>
+                            <div class="field half">
+                                <input type="email" name="email" id="email" placeholder="Email" />
+                            </div>
+                            <div class="field">
+                                <textarea name="message" id="message" placeholder="Message"></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><input type="submit" value="Send" class="primary" /></li>
+                        </ul>
+                    </form>
+                </section>
+                <ul class="copyright">
+                    <li>&copy; 캡스톤 디자인 1조</li>
+                    <li>Design: 김연규, 오병훈</li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <script>
+        // Start Monitoring 버튼 기능
+        document.getElementById("start-monitoring").addEventListener("click", async () => {
+            try {
+                document.getElementById("loading-spinner").style.display = "block"; // 로딩 스피너 표시
+                const response = await fetch('/start-monitoring', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+
+                if (response.ok) {
+                    console.log("Monitoring started!");
+                    document.getElementById("loading-spinner").style.display = "none"; // 로딩 스피너 숨기기
+                    location.reload(); // 페이지 새로고침
+                } else {
+                    console.error("Failed to start monitoring:", response.status);
+                    document.getElementById("loading-spinner").style.display = "none";
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("loading-spinner").style.display = "none";
+            }
+        });
+
+        // 동적 키워드 검색 기능
+        document.getElementById("keyword-search").addEventListener("input", function () {
+            const searchTerm = this.value.toLowerCase(); // 검색어
+            const rows = document.querySelectorAll("#news-table-body tr"); // 뉴스 테이블 행
+
+            rows.forEach(row => {
+                const keyword = row.dataset.keyword.toLowerCase(); // 각 행의 키워드
+                if (keyword.includes(searchTerm)) {
+                    row.style.display = ""; // 검색어에 맞는 행 표시
+                } else {
+                    row.style.display = "none"; // 검색어와 맞지 않는 행 숨김
+                }
+            });
+        });
+    </script>
+</body>
+</html>
